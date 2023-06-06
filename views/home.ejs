@@ -1,10 +1,48 @@
 <html>
     <head>
-
-    </head>
-    <body>
         <h1>welcome to home page...</h1>
         <a href="/users/sign-up">sign up</a>
         <a href="users/sign-in">sign in</a>
+    </head>
+    <body>
+        <% if(locals.user){%>
+        <div id="makepost">
+            <form action="/posts/createpost" method="post">
+                <textarea rows="5" cols="50" name="postD" placeholder="type post"></textarea>
+                <input type="submit">
+            </form>
+        </div>
+        <%}%>
+        <div id = "seeP">
+            <ul>
+                <% for(let i of post){%>
+                <li>
+                    <%=i.content%>
+                    <br>
+                    <small>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<%=i.user.name%>
+                    </small>
+                    <ul>
+                        <% for (let j of i.comment){%>
+                        <li>
+                            <%=j.content%>
+                            <small>
+                                <%=j.user.name%>
+                            </small>
+                        </li>
+                        <%}%>
+                    </ul>
+                    <div id="addC">
+                        <form action="/comments/createcomment" method="post">
+                            <input type="text" placeholder="enter your comment" name="comment">
+                            <input type="hidden" name="postid"value="<%=i._id%>">
+                            <input type="submit">
+                        </form>
+                    </div>
+                </li>
+                <%}%>
+            </ul>
+        </div>
+        
     </body>
 </html>
